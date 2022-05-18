@@ -77,5 +77,21 @@ class BlogController extends AbstractController
     }
 
 
+    /**
+     * Contrôleur de la page ui listes les articles
+     */
+    #[Route('/publication/liste/', name: 'publication_list')]
+    public function publicationList(ManagerRegistry $doctrine): Response
+    {
+
+        $articleRepo = $doctrine->getRepository(Article::class);
+
+        $articles = $articleRepo->findAll();
+
+        return $this->render('blog/publication_list.html.twig', [
+            'articles' => $articles,
+        ]);
+
+    }
 
 }
