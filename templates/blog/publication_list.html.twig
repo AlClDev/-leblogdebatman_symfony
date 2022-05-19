@@ -15,6 +15,28 @@
 
             <div class="col-12 col-md-8 mx-auto">
 
+                {# Affichage du nombre total d'articles #}
+                <div class="row">
+                    <p class="col-12 text-center">Nombre total d'articles : {{ articles.getTotalItemCount }}</p>
+                </div>
+
+                {# Affichage du menu de navigation, seulement s'il y a des articles #}
+                {% if articles is not empty %}
+
+                    <div class="row">
+
+                        <div class="col-12 my-3 text-center">
+
+                            <div class="d-inline-block">
+                                {{ knp_pagination_render(articles) }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
             {% for article in articles %}
 
                 {# Un article #}
@@ -54,10 +76,27 @@
             {%  else %}
 
                 <div class="row">
-                    <h1 class="col-12 text-center alert alert-warning">Aucune publications à afficher</h1>
+                    <p class="col-12 text-center alert alert-warning">Aucune publications à afficher</p>
                 </div>
 
             {% endfor %}
+
+                {# Affichage du menu de navigation, seulement s'il y a des articles #}
+                {% if articles is not empty %}
+
+                    <div class="row">
+
+                        <div class="col-12 my-3 text-center">
+
+                            <div class="d-inline-block">
+                                {{ knp_pagination_render(articles) }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
 
 
             </div>
