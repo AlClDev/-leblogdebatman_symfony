@@ -262,4 +262,44 @@ class BlogController extends AbstractController
 
     }
 
+
+    /**
+     * Controlleur de la page daffichant le srésultat des recherches faites par le formulaire de recherche
+     */
+    #[Route('/recherche/', name: 'search')]
+    public function search(ManagerRegistry $doctrine, Request $request, PaginatorInterface $paginator): Response
+    {
+
+        // Récupération de $_GET['page'], 1 si elle n'existe pas
+        $requestedPage = $request->query->getInt('page', 1);
+
+        // Vérification que le nombre est positif
+        if($requestedPage < 1){
+            throw new NotFoundHttpException();
+        }
+
+        // On récupère la recherche de l'utilisateur depuis l'URL ( $_GET['s'] )
+        $search = $request->query->get('s', '');
+
+        $em = $doctrine->getManager();
+
+        //Création de la requête de recherche
+        $query = $em
+            ->createQuery('SELECT a FROM App\Entity\Article a WHERE a.title LIKE :search OR a.content LIKE :search ORDER BY a.publicationDate DESC')
+            ->setParameters([
+                'search' => '%' . $search . '%'
+            ])
+        ;
+
+        $articles = $paginator->paginate(
+            $query,     // Requête créée juste avant
+            $requestedPage,     // Page qu'on souhaite voir
+            10,     // Nombre d'article à afficher par page
+        );
+
+        return $this->render('blog/list_search.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
 }
