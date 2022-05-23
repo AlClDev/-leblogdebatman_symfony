@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Form\NewArticleFormType;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -152,7 +153,7 @@ class BlogController extends AbstractController
     public function publicationEdit(Article $article, Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
     {
 
-        //Instanciation d'un nouveau formulaire basé sur $article qui contient déjà les données aactuelles de l'article à modifier
+        //Instanciation d'un nouveau formulaire basé sur $article qui contient déjà les données actuelles de l'article à modifier
         $form = $this->createForm(NewArticleFormType::class, $article);
 
         $form->handleRequest($request);
@@ -185,5 +186,6 @@ class BlogController extends AbstractController
         ]);
 
     }
+
 
 }
